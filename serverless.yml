@@ -1,0 +1,40 @@
+service:
+  name: serverless_koa_template
+
+# 서버리스 관련 플러그인
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-northeast-2
+  stage: dev
+
+  # 환경 설정
+  environment:
+    SERVERLESS: true
+
+  # IAM 역할 설정 
+  iamRoleStatements:
+
+  # 네트워크 VPC 설정 
+  vpc:
+
+# 함수 설정 
+functions:
+  app:
+    handler: src/serverless.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: /{any+}
+          method: ANY
+
+# 웹 팩 설정
+custom:
+  webpack:
+    includeModules: true
